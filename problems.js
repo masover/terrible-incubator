@@ -64,4 +64,4 @@ const genericFunnyShortProblems = [
 ];
 
 // Maybe I'll come up with a preferences system later, but for now:
-export const problems = sillyProblems + sillierProblems + genericProblems + genericFunnyShortProblems;
+export const problems = sillyProblems.concat(sillierProblems, genericProblems, genericFunnyShortProblems);
