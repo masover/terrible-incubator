@@ -63,5 +63,10 @@ const genericFunnyShortProblems = [
   "Want to be a robot",
 ];
 
+// This list was written by humans
+const humanProblems = [
+	"My new toaster toasts one side of the bread darker than the other",
+];
+
 // Maybe I'll come up with a preferences system later, but for now:
-export const problems = sillyProblems.concat(sillierProblems, genericProblems, genericFunnyShortProblems);
+export const problems = sillyProblems.concat(sillierProblems, genericProblems, genericFunnyShortProblems, humanProblems);
