@@ -29,4 +29,4 @@ with open(output_filename, 'w') as f:
   # Sort output to make this at least somewhat deterministic.
   # We'd need the original corpora to completely define it,
   # but at least this way we won't see diffs solely because of set shuffling.
-  f.write(f'export nouns = {json.dumps(sorted(probable_words), indent=2)};')
+  f.write(f'export const nouns = {json.dumps(sorted(probable_words), indent=2)};')
