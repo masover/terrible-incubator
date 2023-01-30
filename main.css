@@ -1,8 +1,15 @@
+#js-warning {
+  display: none;
+}
 #solution-spinner {
   display: none;
 }
 #countdown-container {
   display: none;
+}
+
+.uninit #js-warning {
+  display: block;
 }
 
 .problem-is-set #problem-controls {

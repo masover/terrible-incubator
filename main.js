@@ -21,6 +21,12 @@ class Page {
     this.solutionTime = 5 * 1000; // 30 seconds
   }
 
+  setBodyClass(cls) {
+    const list = document.body.classList;
+    list.remove(...list);
+    list.add(cls);
+  }
+
   setProblem() {
     this.problem = pickRandom(problems)
     this.problemEl.innerText = this.problem;
@@ -34,6 +40,7 @@ class Page {
     addToEach(
       this.problemControls.getElementsByClassName('ok'),
       'click', () => this.acceptProblem());
+    this.setBodyClass('init');
   }
 
   proposeSolution() {
@@ -46,7 +53,7 @@ class Page {
   }
 
   acceptProblem() {
-    document.body.classList.add('problem-is-set');
+    this.setBodyClass('problem-is-set');
     this.proposeSolution();
     addToEach(
       this.solutionControls.getElementsByClassName('no'),
