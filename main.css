@@ -1,4 +1,4 @@
-#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #solution-with-name {
   display: none;
 }
 
@@ -29,4 +29,12 @@
 
 .solution-list {
   margin: 5px;
+}
+
+.solution-locked #name-input-form {
+  display: block;
+}
+
+.solution-named #solution-with-name {
+  display: block;
 }

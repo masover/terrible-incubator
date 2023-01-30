@@ -25,6 +25,10 @@ class Page {
     this.countdownEl = document.getElementById('countdown');
     this.rejectedUl = document.querySelector('#rejected-solutions ul');
     this.acceptedUl = document.querySelector('#accepted-solutions ul');
+    this.nameForm = document.getElementById('name-input-form');
+    this.nameInput = document.getElementById('name-input');
+    this.solutionName = document.getElementById('solution-name');
+    this.solutionDescription = document.getElementById('solution-description');
     this.previousSolutions = new Set();
     this.rejectedSolutions = [];
     this.acceptedSolutions = [];
@@ -118,6 +122,17 @@ class Page {
     }
     this.solution = pickRandom(this.acceptedSolutions);
     this.lockedSolutionEl.innerText = this.solution;
+
+    this.nameForm.addEventListener('submit', (e) => this.setName(e));
+    this.nameInput.focus();
+  }
+
+  setName(submitEvent) {
+    submitEvent.preventDefault();
+    this.setClass('solution-named');
+    this.name = this.nameInput.value;
+    this.solutionName.innerText = this.name;
+    this.solutionDescription.innerText = this.solution;
   }
 }
 
