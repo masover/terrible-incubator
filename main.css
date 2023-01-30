@@ -1,4 +1,4 @@
-#js-warning, #solution-spinner, #countdown-container, #solution-lists {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation {
   display: none;
 }
 
@@ -6,9 +6,10 @@
   display: block;
 }
 
-.problem-is-set #problem-controls {
-  display: none;
+.init #problem-controls {
+  display: block;
 }
+
 .problem-is-set #solution-spinner {
   display: block;
 }
@@ -17,6 +18,13 @@
 }
 .problem-is-set #solution-lists {
   display: inline-flex;
+}
+
+.solution-locked #solution-locked {
+  display: block;
+}
+#solution-locked.because-accepted .explanation.match-found, #solution-locked.because-stubborn .explanation.no-match {
+  display: block;
 }
 
 .solution-list {

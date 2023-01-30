@@ -18,7 +18,9 @@ class Page {
   constructor() {
     this.problemEl = document.getElementById('problem');
     this.problemControls = document.getElementById('problem-controls');
-    this.solutionEl = document.getElementById('solution');
+    this.spinnerSolutionEl = document.querySelector('#solution-spinner .solution');
+    this.lockedSolutionEl = document.querySelector('#solution-locked .solution');
+    this.lockedSolutionContainer = document.getElementById('solution-locked');
     this.solutionControls = document.getElementById('solution-controls');
     this.countdownEl = document.getElementById('countdown');
     this.rejectedUl = document.querySelector('#rejected-solutions ul');
@@ -29,8 +31,8 @@ class Page {
     this.solutionTime = 5 * 1000; // 30 seconds
   }
 
-  setBodyClass(cls) {
-    const list = document.body.classList;
+  setClass(cls, el = document.body) {
+    const list = el.classList;
     list.remove(...list);
     list.add(cls);
   }
@@ -48,42 +50,51 @@ class Page {
     addToEach(
       this.problemControls.getElementsByClassName('ok'),
       'click', () => this.acceptProblem());
-    this.setBodyClass('init');
+    this.setClass('init');
   }
 
   proposeSolution() {
-    this.solution = generateSolution();
-    while (this.previousSolutions.has(solution)) {
-      this.solution = generateSolution();
+    this.proposedSolution = generateSolution();
+    while (this.previousSolutions.has(this.proposedSolution)) {
+      this.proposedSolution = generateSolution();
     }
-    this.previousSolutions.add(this.solution);
-    this.solutionEl.innerText = this.solution;
+    this.previousSolutions.add(this.proposedSolution);
+    this.spinnerSolutionEl.innerText = this.proposedSolution;
   }
 
   acceptProblem() {
-    this.setBodyClass('problem-is-set');
+    this.setClass('problem-is-set');
     this.proposeSolution();
     addToEach(
       this.solutionControls.getElementsByClassName('no'),
-      'click', () => this.rejectSolution());
+      'click', () => this.rejectAndPropose());
     addToEach(
       this.solutionControls.getElementsByClassName('ok'),
-      'click', () => this.acceptSolution());
+      'click', () => this.acceptAndPropose());
     this.countdownStart = new Date();
     this.updateCountdown();
     this.solutionCountdownInterval = setInterval(() => this.updateCountdown(), 1000);
     setTimeout(() => this.lockSolution(), this.solutionTime);
   }
 
-  rejectSolution() {
-    this.rejectedSolutions.push(this.solution);
-    this.rejectedUl.appendChild(li(this.solution));
+  rejectAndPropose() {
+    this.rejectSolution();
     this.proposeSolution();
   }
 
+  acceptAndPropose() {
+    this.acceptSolution();
+    this.proposeSolution();
+  }
+
+  rejectSolution() {
+    this.rejectedSolutions.push(this.proposedSolution);
+    this.rejectedUl.appendChild(li(this.proposedSolution));
+  }
+
   acceptSolution() {
-    this.acceptedSolutions.push(this.solution);
-    this.acceptedUl.appendChild(li(this.solution));
+    this.acceptedSolutions.push(this.proposedSolution);
+    this.acceptedUl.appendChild(li(this.proposedSolution));
     this.proposeSolution();
   }
 
@@ -95,7 +106,18 @@ class Page {
 
   lockSolution() {
     clearInterval(this.solutionCountdownInterval);
-    console.log('TODO: actually lock solution');
+    this.setClass('solution-locked');
+    // If it's not accepted by now, reject it by default.
+    this.rejectSolution();
+    if (this.acceptedSolutions.length > 0) {
+      this.setClass('because-accepted', this.lockedSolutionContainer);
+    } else {
+      this.setClass('because-stubborn', this.lockedSolutionContainer);
+      this.acceptedSolutions = this.rejectedSolutions;
+      this.rejectedSolutions = [];
+    }
+    this.solution = pickRandom(this.acceptedSolutions);
+    this.lockedSolutionEl.innerText = this.solution;
   }
 }
 

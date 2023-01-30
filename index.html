@@ -23,7 +23,7 @@
       <button class="ok">✅</button>
     </div>
     <div id="solution-spinner">
-      <h1>Solution: <span id="solution"></span></h1>
+      <h1>Solution: <span class="solution"></span></h1>
       <div id="solution-controls">
         <button class="no">❌</button>
         <button class="ok">✅</button>
@@ -39,6 +39,14 @@
         <h3>Accepted solutions</h3>
         <ul></ul>
       </div>
+    </div>
+    <div id="solution-locked">
+      <p class="explanation match-found">Aww, you found a match!</p>
+      <p class="explanation no-match">
+        You are too picky! Since you didn't accept <i>any</i> solutions,
+        here's one you rejected:
+      </p>
+      <h1>Solution: <span class="solution"></span></h1>
     </div>
   </body>
 </html>
