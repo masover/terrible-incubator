@@ -1,0 +1,10 @@
+#solution-spinner {
+  display: none;
+}
+
+.problem-is-set #problem-controls {
+  display: none;
+}
+.problem-is-set #solution-spinner {
+  display: block;
+}
