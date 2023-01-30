@@ -77,7 +77,6 @@ const endWithE = /e?$/;
 for (const verb of verbList) {
   verbingList.push(verb.replace(endWithE, 'ing'));
 }
-console.log(verbingList);
 
 const simpleReplacements = {
   verb: verbList,
