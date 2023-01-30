@@ -14,9 +14,11 @@ class Page {
     this.problemControls = document.getElementById('problem-controls');
     this.solutionEl = document.getElementById('solution');
     this.solutionControls = document.getElementById('solution-controls');
+    this.countdownEl = document.getElementById('countdown');
     this.previousSolutions = new Set();
     this.rejectedSolutions = [];
     this.acceptedSolutions = [];
+    this.solutionTime = 5 * 1000; // 30 seconds
   }
 
   setProblem() {
@@ -52,6 +54,10 @@ class Page {
     addToEach(
       this.solutionControls.getElementsByClassName('ok'),
       'click', () => this.acceptSolution());
+    this.countdownStart = new Date();
+    this.updateCountdown();
+    this.solutionCountdownInterval = setInterval(() => this.updateCountdown(), 1000);
+    setTimeout(() => this.lockSolution(), this.solutionTime);
   }
 
   rejectSolution() {
@@ -62,6 +68,17 @@ class Page {
   acceptSolution() {
     this.acceptedSolutions.push(this.solution);
     this.proposeSolution();
+  }
+
+  updateCountdown() {
+    const delta = new Date() - this.countdownStart;
+    const timeLeft = Math.max(0, this.solutionTime - delta);
+    this.countdownEl.innerText = Math.ceil(timeLeft / 1000);
+  }
+
+  lockSolution() {
+    clearInterval(this.solutionCountdownInterval);
+    console.log('TODO: actually lock solution');
   }
 }
 

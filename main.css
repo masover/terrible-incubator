@@ -1,10 +1,16 @@
 #solution-spinner {
   display: none;
 }
+#countdown-container {
+  display: none;
+}
 
 .problem-is-set #problem-controls {
   display: none;
 }
 .problem-is-set #solution-spinner {
+  display: block;
+}
+.problem-is-set #countdown-container {
   display: block;
 }
