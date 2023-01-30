@@ -2,19 +2,15 @@
 <html>
   <head>
     <title>An incubator for terrible ideas</title>
-    <script type="module">
-      import {generateSolution} from './solutions.js';
-      document.addEventListener('DOMContentLoaded', () => { 
-      const list = document.getElementById('demo');
-        for (let i=0; i<100; ++i) {
-          const item = document.createElement('li');
-          item.innerText = generateSolution();
-          list.appendChild(item);
-        }
-      });
-    </script>
+    <script type="module" src="./main.js"></script>
+    <!-- GH pages assumes this, but it's useful for testing locally. -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <ul id="demo"></ul>
+    <h1>Problem: <span id="problem"></span></h1>
+    <div id="problem-controls">
+      <button class="spin">↻</button>
+      <button class="ok">✓</button>
+    </div>
   </body>
 </html>
