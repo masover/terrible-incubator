@@ -8,6 +8,12 @@ function addToEach(elements, event, listener) {
   }
 }
 
+function li(text) {
+  const el = document.createElement('li');
+  el.innerText = text;
+  return el;
+}
+
 class Page {
   constructor() {
     this.problemEl = document.getElementById('problem');
@@ -15,6 +21,8 @@ class Page {
     this.solutionEl = document.getElementById('solution');
     this.solutionControls = document.getElementById('solution-controls');
     this.countdownEl = document.getElementById('countdown');
+    this.rejectedUl = document.querySelector('#rejected-solutions ul');
+    this.acceptedUl = document.querySelector('#accepted-solutions ul');
     this.previousSolutions = new Set();
     this.rejectedSolutions = [];
     this.acceptedSolutions = [];
@@ -69,11 +77,13 @@ class Page {
 
   rejectSolution() {
     this.rejectedSolutions.push(this.solution);
+    this.rejectedUl.appendChild(li(this.solution));
     this.proposeSolution();
   }
 
   acceptSolution() {
     this.acceptedSolutions.push(this.solution);
+    this.acceptedUl.appendChild(li(this.solution));
     this.proposeSolution();
   }
 

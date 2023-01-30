@@ -1,10 +1,4 @@
-#js-warning {
-  display: none;
-}
-#solution-spinner {
-  display: none;
-}
-#countdown-container {
+#js-warning, #solution-spinner, #countdown-container, #solution-lists {
   display: none;
 }
 
@@ -20,4 +14,11 @@
 }
 .problem-is-set #countdown-container {
   display: block;
+}
+.problem-is-set #solution-lists {
+  display: inline-flex;
+}
+
+.solution-list {
+  margin: 5px;
 }
