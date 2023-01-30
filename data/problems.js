@@ -65,8 +65,8 @@ const genericFunnyShortProblems = [
 
 // This list was written by humans
 const humanProblems = [
-	"My new toaster toasts one side of the bread darker than the other",
-	"Don't you hate shrink-wrapped packaging?",
+	"New toaster toasts one side of the bread darker than the other",
+	"Hate shrink-wrapped packaging",
 ];
 
 // Maybe I'll come up with a preferences system later, but for now:

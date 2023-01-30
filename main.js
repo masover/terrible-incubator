@@ -14,9 +14,15 @@ function li(text) {
   return el;
 }
 
+function setAllText(elements, text) {
+  for (const element of elements) {
+    element.innerText = text;
+  }
+}
+
 class Page {
   constructor() {
-    this.problemEl = document.getElementById('problem');
+    this.problemElements = document.querySelectorAll('.problem');
     this.problemControls = document.getElementById('problem-controls');
     this.spinnerSolutionEl = document.querySelector('#solution-spinner .solution');
     this.lockedSolutionEl = document.querySelector('#solution-locked .solution');
@@ -43,7 +49,7 @@ class Page {
 
   setProblem() {
     this.problem = pickRandom(problems)
-    this.problemEl.innerText = this.problem;
+    setAllText(this.problemElements, this.problem);
   }
 
   init() {
@@ -129,7 +135,7 @@ class Page {
 
   setName(submitEvent) {
     submitEvent.preventDefault();
-    this.setClass('solution-named');
+    this.setClass('presentation-mode');
     this.name = this.nameInput.value;
     this.solutionName.innerText = this.name;
     this.solutionDescription.innerText = this.solution;

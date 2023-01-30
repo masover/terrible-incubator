@@ -1,4 +1,4 @@
-#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #solution-with-name {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode {
   display: none;
 }
 
@@ -35,6 +35,10 @@
   display: block;
 }
 
-.solution-named #solution-with-name {
+/* The only time we actually hide the original problem line */
+.presentation-mode #problem-line {
+  display: none;
+}
+.presentation-mode #presentation-mode {
   display: block;
 }
