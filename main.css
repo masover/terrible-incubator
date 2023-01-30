@@ -42,3 +42,8 @@
 .presentation-mode #presentation-mode {
   display: block;
 }
+
+/* Buttons should be big enough to be touch targets */
+button {
+  font-size: xxx-large;
+}
