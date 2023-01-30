@@ -13,7 +13,10 @@ class Page {
     this.problemEl = document.getElementById('problem');
     this.problemControls = document.getElementById('problem-controls');
     this.solutionEl = document.getElementById('solution');
+    this.solutionControls = document.getElementById('solution-controls');
     this.previousSolutions = new Set();
+    this.rejectedSolutions = [];
+    this.acceptedSolutions = [];
   }
 
   setProblem() {
@@ -42,6 +45,22 @@ class Page {
 
   acceptProblem() {
     document.body.classList.add('problem-is-set');
+    this.proposeSolution();
+    addToEach(
+      this.solutionControls.getElementsByClassName('no'),
+      'click', () => this.rejectSolution());
+    addToEach(
+      this.solutionControls.getElementsByClassName('ok'),
+      'click', () => this.acceptSolution());
+  }
+
+  rejectSolution() {
+    this.rejectedSolutions.push(this.solution);
+    this.proposeSolution();
+  }
+
+  acceptSolution() {
+    this.acceptedSolutions.push(this.solution);
     this.proposeSolution();
   }
 }
