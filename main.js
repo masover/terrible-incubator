@@ -50,8 +50,6 @@ class Page {
     this.solutionDescription = document.getElementById('solution-description');
     this.solutionList = document.getElementById('solution-list');
     this.previousSolutions = new Set();
-    this.solutionTime = 30 * 1000;
-    this.presentationTime = 60 * 1000;
   }
 
   setProblem() {
@@ -92,6 +90,13 @@ class Page {
       'click', () => this.finishPresentation());
     enableForm(this.nameInput, false);
     this.nameForm.addEventListener('submit', (e) => this.setName(e));
+
+    // I want to be able to tweak these at runtime.
+    // Ideally, this would be some user-visible control.
+    // Instead, it's something I can easily set in the JS console.
+    window.solutionSeconds = 30;
+    window.presentationSeconds = 60;
+
     setBodyClass('init');
   }
 
@@ -111,7 +116,7 @@ class Page {
     this.rejectedUl.replaceChildren();
     this.acceptedUl.replaceChildren();
     this.proposeSolution();
-    this.startCountdown(this.solutionTime, () => this.lockSolution());
+    this.startCountdown(window.solutionSeconds * 1000, () => this.lockSolution());
   }
 
   startCountdown(countdownTime, whenDone) {
@@ -179,7 +184,7 @@ class Page {
   }
 
   startPresentation() {
-    this.startCountdown(this.presentationTime, () => this.finishPresentation());
+    this.startCountdown(window.presentationSeconds * 1000, () => this.finishPresentation());
     this.curSlide = 0;
     this.nextSlide();
   }
