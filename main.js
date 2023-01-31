@@ -40,8 +40,6 @@ class Page {
     this.solutionDescription = document.getElementById('solution-description');
     this.solutionList = document.getElementById('solution-list');
     this.previousSolutions = new Set();
-    this.rejectedSolutions = [];
-    this.acceptedSolutions = [];
     this.solutionTime = 5 * 1000;
     this.presentationTime = 5 * 1000;
   }
@@ -72,6 +70,8 @@ class Page {
     addToQuery(
       '#solution-controls .ok',
       'click', () => this.acceptAndPropose());
+    document.getElementById('new-solution').addEventListener(
+      'click', () => this.acceptProblem());
     enableForm(this.nameInput, false);
     this.nameForm.addEventListener('submit', (e) => this.setName(e));
     this.setClass('init');
@@ -88,6 +88,10 @@ class Page {
 
   acceptProblem() {
     this.setClass('problem-is-set');
+    this.rejectedSolutions = [];
+    this.acceptedSolutions = [];
+    this.rejectedUl.replaceChildren();
+    this.acceptedUl.replaceChildren();
     this.proposeSolution();
     this.startCountdown(this.solutionTime, () => this.lockSolution());
   }
