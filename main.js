@@ -38,10 +38,12 @@ class Page {
     this.nameInput = document.getElementById('name-input');
     this.solutionName = document.getElementById('solution-name');
     this.solutionDescription = document.getElementById('solution-description');
+    this.solutionList = document.getElementById('solution-list');
     this.previousSolutions = new Set();
     this.rejectedSolutions = [];
     this.acceptedSolutions = [];
-    this.solutionTime = 5 * 1000; // 30 seconds
+    this.solutionTime = 5 * 1000;
+    this.presentationTime = 5 * 1000;
   }
 
   setClass(cls, el = document.body) {
@@ -87,10 +89,15 @@ class Page {
   acceptProblem() {
     this.setClass('problem-is-set');
     this.proposeSolution();
+    this.startCountdown(this.solutionTime, () => this.lockSolution());
+  }
+
+  startCountdown(countdownTime, whenDone) {
     this.countdownStart = new Date();
+    this.countdownTime = countdownTime;
     this.updateCountdown();
-    this.solutionCountdownInterval = setInterval(() => this.updateCountdown(), 1000);
-    setTimeout(() => this.lockSolution(), this.solutionTime);
+    this.countdownInterval = setInterval(() => this.updateCountdown(), 1000);
+    setTimeout(whenDone, countdownTime);
   }
 
   rejectAndPropose() {
@@ -116,12 +123,12 @@ class Page {
 
   updateCountdown() {
     const delta = new Date() - this.countdownStart;
-    const timeLeft = Math.max(0, this.solutionTime - delta);
+    const timeLeft = Math.max(0, this.countdownTime - delta);
     this.countdownEl.innerText = Math.ceil(timeLeft / 1000);
   }
 
   lockSolution() {
-    clearInterval(this.solutionCountdownInterval);
+    clearInterval(this.countdownInterval);
     this.setClass('solution-locked');
     // If it's not accepted by now, reject it by default.
     this.rejectSolution();
@@ -146,6 +153,21 @@ class Page {
     this.name = this.nameInput.value;
     this.solutionName.innerText = this.name;
     this.solutionDescription.innerText = this.solution;
+    this.startCountdown(this.presentationTime, () => this.finishPresentation());
+  }
+
+  finishPresentation() {
+    this.setClass('summarize');
+    const li = document.createElement('li');
+    const name = document.createElement('span');
+    name.classList.add('problem');
+    name.innerText = this.name;
+    li.appendChild(name);
+    const solution = document.createElement('span');
+    solution.classList.add('solution');
+    solution.innerText = `(${this.solution})`;
+    li.appendChild(solution);
+    this.solutionList.appendChild(li);
   }
 }
 

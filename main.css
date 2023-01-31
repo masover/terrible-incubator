@@ -1,4 +1,4 @@
-#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode, #summary {
   display: none;
 }
 
@@ -41,6 +41,20 @@
 }
 .presentation-mode #presentation-mode {
   display: block;
+}
+.presentation-mode #countdown-container {
+  display: block;
+}
+
+.summarize #summary {
+  display: block;
+}
+#summary li .problem {
+  font-weight: bold;
+  margin-right: 0.2em;
+}
+#summary li .solution {
+  font-style: italic;
 }
 
 /* Buttons should be big enough to be touch targets */
