@@ -55,6 +55,12 @@ class Page {
     setAllText(this.problemElements, this.problem);
   }
 
+  startOver() {
+    this.setClass('init');
+    this.solutionList.replaceChildren();
+    this.setProblem();
+  }
+
   init() {
     this.setProblem();
     // Wire up all click handlers once
@@ -72,6 +78,8 @@ class Page {
       'click', () => this.acceptAndPropose());
     document.getElementById('new-solution').addEventListener(
       'click', () => this.acceptProblem());
+    document.getElementById('start-over').addEventListener(
+      'click', () => this.startOver());
     document.getElementById('finish-presentation').addEventListener(
       'click', () => this.finishPresentation());
     enableForm(this.nameInput, false);
