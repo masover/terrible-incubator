@@ -2,10 +2,15 @@ import {problems} from './data/problems.js';
 import {pickRandom} from './util.js';
 import {generateSolution} from './solutions.js';
 
-function addToEach(elements, event, listener) {
-  for (const el of elements) {
+function addToQuery(query, event, listener) {
+  for (const el of document.querySelectorAll(query)) {
     el.addEventListener(event, listener);
   }
+}
+
+function enableForm(form, enabled) {
+  form.querySelectorAll('button').disabled = !enabled;
+  form.querySelectorAll('input').disabled = !enabled;
 }
 
 function li(text) {
@@ -23,11 +28,9 @@ function setAllText(elements, text) {
 class Page {
   constructor() {
     this.problemElements = document.querySelectorAll('.problem');
-    this.problemControls = document.getElementById('problem-controls');
     this.spinnerSolutionEl = document.querySelector('#solution-spinner .solution');
     this.lockedSolutionEl = document.querySelector('#solution-locked .solution');
     this.lockedSolutionContainer = document.getElementById('solution-locked');
-    this.solutionControls = document.getElementById('solution-controls');
     this.countdownEl = document.getElementById('countdown');
     this.rejectedUl = document.querySelector('#rejected-solutions ul');
     this.acceptedUl = document.querySelector('#accepted-solutions ul');
@@ -54,12 +57,21 @@ class Page {
 
   init() {
     this.setProblem();
-    addToEach(
-      this.problemControls.getElementsByClassName('spin'),
+    // Wire up all click handlers once
+    addToQuery(
+      '#problem-controls .spin',
       'click', () => this.setProblem());
-    addToEach(
-      this.problemControls.getElementsByClassName('ok'),
+    addToQuery(
+      '#problem-controls .ok',
       'click', () => this.acceptProblem());
+    addToQuery(
+      '#solution-controls .no',
+      'click', () => this.rejectAndPropose());
+    addToQuery(
+      '#solution-controls .ok',
+      'click', () => this.acceptAndPropose());
+    enableForm(this.nameInput, false);
+    this.nameForm.addEventListener('submit', (e) => this.setName(e));
     this.setClass('init');
   }
 
@@ -75,12 +87,6 @@ class Page {
   acceptProblem() {
     this.setClass('problem-is-set');
     this.proposeSolution();
-    addToEach(
-      this.solutionControls.getElementsByClassName('no'),
-      'click', () => this.rejectAndPropose());
-    addToEach(
-      this.solutionControls.getElementsByClassName('ok'),
-      'click', () => this.acceptAndPropose());
     this.countdownStart = new Date();
     this.updateCountdown();
     this.solutionCountdownInterval = setInterval(() => this.updateCountdown(), 1000);
@@ -128,13 +134,14 @@ class Page {
     }
     this.solution = pickRandom(this.acceptedSolutions);
     this.lockedSolutionEl.innerText = this.solution;
-
-    this.nameForm.addEventListener('submit', (e) => this.setName(e));
+    enableForm(this.nameForm, true);
+    this.nameInput.value = '';
     this.nameInput.focus();
   }
 
   setName(submitEvent) {
     submitEvent.preventDefault();
+    enableForm(this.nameForm, false);
     this.setClass('presentation-mode');
     this.name = this.nameInput.value;
     this.solutionName.innerText = this.name;
