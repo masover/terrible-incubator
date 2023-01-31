@@ -40,8 +40,8 @@ class Page {
     this.solutionDescription = document.getElementById('solution-description');
     this.solutionList = document.getElementById('solution-list');
     this.previousSolutions = new Set();
-    this.solutionTime = 5 * 1000;
-    this.presentationTime = 5 * 1000;
+    this.solutionTime = 30 * 1000;
+    this.presentationTime = 60 * 1000;
   }
 
   setClass(cls, el = document.body) {
@@ -72,6 +72,8 @@ class Page {
       'click', () => this.acceptAndPropose());
     document.getElementById('new-solution').addEventListener(
       'click', () => this.acceptProblem());
+    document.getElementById('finish-presentation').addEventListener(
+      'click', () => this.finishPresentation());
     enableForm(this.nameInput, false);
     this.nameForm.addEventListener('submit', (e) => this.setName(e));
     this.setClass('init');
@@ -101,7 +103,7 @@ class Page {
     this.countdownTime = countdownTime;
     this.updateCountdown();
     this.countdownInterval = setInterval(() => this.updateCountdown(), 1000);
-    setTimeout(whenDone, countdownTime);
+    this.countdownTimeout = setTimeout(whenDone, countdownTime);
   }
 
   rejectAndPropose() {
@@ -161,6 +163,8 @@ class Page {
   }
 
   finishPresentation() {
+    clearInterval(this.countdownInterval);
+    clearTimeout(this.countdownTimeout);
     this.setClass('summarize');
     const li = document.createElement('li');
     const name = document.createElement('span');

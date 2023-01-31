@@ -1,4 +1,4 @@
-#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode, #summary {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode, #summary, #finish-presentation {
   display: none;
 }
 
@@ -43,6 +43,9 @@
   display: block;
 }
 .presentation-mode #countdown-container {
+  display: block;
+}
+.presentation-mode #finish-presentation {
   display: block;
 }
 
