@@ -25,6 +25,16 @@ function setAllText(elements, text) {
   }
 }
 
+function setClass(el, ...classes) {
+  const list = el.classList;
+  list.remove(...list);
+  list.add(...classes);
+}
+
+function setBodyClass(...classes) {
+  setClass(document.body, ...classes);
+}
+
 class Page {
   constructor() {
     this.problemElements = document.querySelectorAll('.problem');
@@ -44,19 +54,13 @@ class Page {
     this.presentationTime = 60 * 1000;
   }
 
-  setClass(cls, el = document.body) {
-    const list = el.classList;
-    list.remove(...list);
-    list.add(cls);
-  }
-
   setProblem() {
     this.problem = pickRandom(problems)
     setAllText(this.problemElements, this.problem);
   }
 
   startOver() {
-    this.setClass('init');
+    setBodyClass('init');
     this.solutionList.replaceChildren();
     this.setProblem();
   }
@@ -80,11 +84,15 @@ class Page {
       'click', () => this.acceptProblem());
     document.getElementById('start-over').addEventListener(
       'click', () => this.startOver());
+    document.getElementById('start-presentation').addEventListener(
+      'click', () => this.startPresentation());
+    document.getElementById('next-slide').addEventListener(
+      'click', () => this.nextSlide());
     document.getElementById('finish-presentation').addEventListener(
       'click', () => this.finishPresentation());
     enableForm(this.nameInput, false);
     this.nameForm.addEventListener('submit', (e) => this.setName(e));
-    this.setClass('init');
+    setBodyClass('init');
   }
 
   proposeSolution() {
@@ -97,7 +105,7 @@ class Page {
   }
 
   acceptProblem() {
-    this.setClass('problem-is-set');
+    setBodyClass('problem-is-set');
     this.rejectedSolutions = [];
     this.acceptedSolutions = [];
     this.rejectedUl.replaceChildren();
@@ -143,13 +151,13 @@ class Page {
 
   lockSolution() {
     clearInterval(this.countdownInterval);
-    this.setClass('solution-locked');
+    setBodyClass('solution-locked');
     // If it's not accepted by now, reject it by default.
     this.rejectSolution();
     if (this.acceptedSolutions.length > 0) {
-      this.setClass('because-accepted', this.lockedSolutionContainer);
+      setClass(this.lockedSolutionContainer, 'because-accepted');
     } else {
-      this.setClass('because-stubborn', this.lockedSolutionContainer);
+      setClass(this.lockedSolutionContainer, 'because-stubborn');
       this.acceptedSolutions = this.rejectedSolutions;
       this.rejectedSolutions = [];
     }
@@ -163,17 +171,29 @@ class Page {
   setName(submitEvent) {
     submitEvent.preventDefault();
     enableForm(this.nameForm, false);
-    this.setClass('presentation-mode');
+    setBodyClass('presentation-mode', 'slide0');
     this.name = this.nameInput.value;
     this.solutionName.innerText = this.name;
     this.solutionDescription.innerText = this.solution;
+    document.body.classList.add('slide0');
+  }
+
+  startPresentation() {
     this.startCountdown(this.presentationTime, () => this.finishPresentation());
+    this.curSlide = 0;
+    this.nextSlide();
+  }
+
+  nextSlide() {
+    this.curSlide++;
+    document.body.classList.replace(
+      `slide${this.curSlide-1}`, `slide${this.curSlide}`);
   }
 
   finishPresentation() {
     clearInterval(this.countdownInterval);
     clearTimeout(this.countdownTimeout);
-    this.setClass('summarize');
+    setBodyClass('summarize');
     const li = document.createElement('li');
     const name = document.createElement('span');
     name.classList.add('problem');

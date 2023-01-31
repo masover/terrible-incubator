@@ -1,4 +1,7 @@
-#js-warning, #problem-controls, #solution-spinner, #countdown-container, #solution-lists, #solution-locked, .explanation, #name-input-form, #presentation-mode, #summary, #finish-presentation {
+#js-warning, #problem-controls, #solution-spinner, #countdown-container,
+#solution-lists, #solution-locked, .explanation, #name-input-form,
+#presentation-mode, #summary, #finish-presentation, .problem-row,
+.solution-row, #solution-description, #next-slide, #start-presentation {
   display: none;
 }
 
@@ -42,10 +45,25 @@
 .presentation-mode #presentation-mode {
   display: block;
 }
-.presentation-mode #countdown-container {
+.slide0 #start-presentation {
   display: block;
 }
-.presentation-mode #finish-presentation {
+.slide1 #next-slide, .slide2 #next-slide {
+  display: block;
+}
+.slide1 #countdown-container, .slide2 #countdown-container, .slide3 #countdown-container {
+  display: block;
+}
+.slide1 .problem-row, .slide2 .problem-row, .slide3 .problem-row {
+  display: block;
+}
+.slide2 .solution-row, .slide3 .solution-row {
+  display: block;
+}
+.slide3 #solution-description {
+  display: block;
+}
+.slide3 #finish-presentation {
   display: block;
 }
 
