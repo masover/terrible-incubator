@@ -3,6 +3,8 @@
 It's like asking ChatGPT if it has any startup ideas,
 except it's far less likely to produce anything useful.
 
+It is unfortunately *live* at https://forkbox.net/terrible-incubator/
+
 * Several word lists and templates were provided by ChatGPT.
 * [NLTK](https://www.nltk.org/) was used, along with the
   [Brown](http://korpus.uib.no/icame/brown/bcm.html)
